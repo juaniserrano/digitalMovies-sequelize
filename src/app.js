@@ -1,0 +1,30 @@
+const express = require('express');
+const path = require('path');
+const indexRouter = require('./routes/index');
+const methodOverride = require('method-override');
+
+const moviesRoutes = require('./routes/moviesRoutes');
+const genresRoutes = require('./routes/genresRoutes');
+const actorRoutes = require('./routes/actorsRoutes');
+const app = express();
+
+//var path = require('path');
+//const dotenvAbsolutePath = path.join(__dirname, '../../../.env');
+
+require('dotenv').config();
+
+// view engine setup
+app.set('views', path.resolve(__dirname, './views'));
+app.set('view engine', 'ejs');
+
+app.use(express.static(path.resolve(__dirname, '../public')));
+
+//URL encode  - Para que nos pueda llegar la información desde el formulario al req.body
+app.use(express.urlencoded({ extended: false }));
+
+app.use('/', indexRouter);
+app.use(moviesRoutes);
+app.use(genresRoutes);
+app.use(actorRoutes);
+
+app.listen('3001', () => console.log('Servidor corriendo en el puerto 3001'));
